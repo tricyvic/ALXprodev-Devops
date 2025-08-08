@@ -3,7 +3,7 @@
 #Fetching data for bulbasaur...
 #Saved data to pokemon_data/bulbasaur.json ✅
 
-#fetch from PokeAPI names of pokemon into a list 
+#fetch from PokeAPI names of pokemon into a list ["ivysaur", "venusaur", "charmander", "charmeleon"] 
 
 pokemon_list=$(curl -s "https://pokeapi.co/api/v2/pokemon?limit=100" | jq -r '.results[].name')
 
@@ -12,7 +12,7 @@ pokemon_list=$(curl -s "https://pokeapi.co/api/v2/pokemon?limit=100" | jq -r '.r
 for pokemon in $pokemon_list; do
     echo "Fetching data for $pokemon..."
     response=$(curl -s "https://pokeapi.co/api/v2/pokemon/$pokemon")
-    
+    sleep 1
     if [ $? -ne 0 ]; then
         echo "Failed to fetch data for $pokemon" >> errors.txt
         continue
