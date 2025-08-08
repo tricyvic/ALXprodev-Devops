@@ -1,0 +1,6 @@
+#/bin/bash
+name=$(cat data.json | jq -r '.forms[].name')
+height=$(cat data.json | jq '.height')
+weight=$(cat data.json | jq '.weight')
+type=$(cat data.json | jq -r '.types[].type.name')
+echo $name is of type $type, weighs $weight\kg, and is $height\m tall.
