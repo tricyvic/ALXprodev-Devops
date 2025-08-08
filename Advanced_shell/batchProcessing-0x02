@@ -1,0 +1,30 @@
+#/bin/bash
+
+#Fetching data for bulbasaur...
+#Saved data to pokemon_data/bulbasaur.json ✅
+
+#fetch from PokeAPI names of pokemon into a list 
+
+pokemon_list=$(curl -s "https://pokeapi.co/api/v2/pokemon?limit=100" | jq -r '.results[].name')
+
+
+# loop thorugh the list and fetch data for each pokemon
+for pokemon in $pokemon_list; do
+    echo "Fetching data for $pokemon..."
+    response=$(curl -s "https://pokeapi.co/api/v2/pokemon/$pokemon")
+    
+    if [ $? -ne 0 ]; then
+        echo "Failed to fetch data for $pokemon" >> errors.txt
+        continue
+    fi
+    mkdir -p pokemon_data # Ensure the directory exists before saving files
+    
+    # Save the response to a file named after the pokemon
+    echo $response > "pokemon_data/$pokemon.json"
+    echo Saved data to pokemon_data/$pokemon.json 
+done
+
+# save each pokemon data into a file named after the pokemon in the folder pokemon_data
+mkdir -p pokemon_data 
+# Ensure the directory exists before saving files
+
