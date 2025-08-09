@@ -30,4 +30,4 @@ echo "" >> pokemon_report.csv
 echo Average Height: $average_height m >> pokemon_report.csv
 echo Average Weight: $average_weight kg >> pokemon_report.csv
 
-# Did not use "awk"
+# Did not use "awk", "sed"
