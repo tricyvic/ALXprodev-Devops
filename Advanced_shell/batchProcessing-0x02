@@ -11,8 +11,18 @@ pokemon_list=$(curl -s "https://pokeapi.co/api/v2/pokemon?limit=100" | jq -r '.r
 # loop thorugh the list and fetch data for each pokemon
 for pokemon in $pokemon_list; do
     echo "Fetching data for $pokemon..."
-    response=$(curl -s "https://pokeapi.co/api/v2/pokemon/$pokemon")
-    sleep 1
+    # Checks for if an API request fails, implement a retry mechanism that attempts the request up to 3 times before logging the error and skipping to the next Pokémon.
+    for attempt in {1..3}; do
+        response=$(curl -s "https://pokeapi.co/api/v2/pokemon/$pokemon")
+        if [ $? -eq 0 ]; then
+            echo "Fetched successfully"
+            break
+        else
+            echo "Attempt $attempt failed, retrying..."
+            sleep 1
+        fi
+    done
+    
     if [ $? -ne 0 ]; then
         echo "Failed to fetch data for $pokemon" >> errors.txt
         continue
